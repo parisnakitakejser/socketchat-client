@@ -6,40 +6,13 @@
       <b-row>
         <b-col md="3" xl="2">
           <h2>Chat rooms</h2>
-
-          <b-list-group>
-            <b-list-group-item class="d-flex justify-content-between align-items-center">
-              Lobby Chat Room <b-badge variant="dark" pill>0</b-badge>
-            </b-list-group-item>
-          </b-list-group>
-
+          <ChatRoom />
         </b-col>
         <b-col class="chat-content">
           <div class="chat-messages">
             <h2>Room:</h2>
 
-            <ul class="list-unstyled">
-              <b-media tag="li" class="my-4">
-                <b-img slot="aside" blank blank-color="pink" width="64" alt="Placeholder - username"></b-img>
-
-                <h5 class="mt-0 mb-1">Header msg</h5>
-                <p class="mb-0">Body text</p>
-              </b-media>
-
-              <b-media tag="li" class="my-4">
-                <b-img slot="aside" blank blank-color="pink" width="64" alt="Placeholder - username"></b-img>
-
-                <h5 class="mt-0 mb-1">Header msg</h5>
-                <p class="mb-0">Body text</p>
-              </b-media>
-
-              <b-media tag="li" class="my-4">
-                <b-img slot="aside" blank blank-color="pink" width="64" alt="Placeholder - username"></b-img>
-
-                <h5 class="mt-0 mb-1">Header msg</h5>
-                <p class="mb-0">Body text</p>
-              </b-media>
-            </ul>
+            <ChatMessages />
           </div>
           <div class="chat-input">
 
@@ -57,18 +30,7 @@
         </b-col>
         <b-col md="3" xl="2">
           <h2>Online people</h2>
-
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <ChatOnlinePeople />
         </b-col>
       </b-row>
     </b-container>
@@ -77,32 +39,29 @@
 
 <script>
 import HeaderNavigation from './components/ui-modules/HeaderNavigation.vue'
+import ChatRoom from './components/ui-modules/ChatRoom.vue'
+import ChatMessages from './components/ui-modules/ChatMessages.vue'
+import ChatOnlinePeople from './components/ui-modules/ChatOnlinePeople.vue'
 
 export default {
   name: 'app',
   components: {
-    HeaderNavigation
+    HeaderNavigation,
+    ChatRoom,
+    ChatMessages,
+    ChatOnlinePeople
   },
 
   data () {
     return {
-      onlinePeopleProps: {
-        blank: true,
-        blankColor: '#777',
-        width: 50,
-        height: 50,
-        class: 'online-people-icon'
-      }
+
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-  .online-people-icon {
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
+
 
   $header-nav-height: 58px;
   $chat-input-height: 60px;
