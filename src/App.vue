@@ -1,0 +1,132 @@
+<template>
+  <div id="app">
+    <HeaderNavigation />
+
+    <b-container fluid>
+      <b-row>
+        <b-col md="3" xl="2">
+          <h2>Chat rooms</h2>
+
+          <b-list-group>
+            <b-list-group-item class="d-flex justify-content-between align-items-center">
+              Lobby Chat Room <b-badge variant="dark" pill>0</b-badge>
+            </b-list-group-item>
+          </b-list-group>
+
+        </b-col>
+        <b-col class="chat-content">
+          <div class="chat-messages">
+            <h2>Room:</h2>
+
+            <ul class="list-unstyled">
+              <b-media tag="li" class="my-4">
+                <b-img slot="aside" blank blank-color="pink" width="64" alt="Placeholder - username"></b-img>
+
+                <h5 class="mt-0 mb-1">Header msg</h5>
+                <p class="mb-0">Body text</p>
+              </b-media>
+
+              <b-media tag="li" class="my-4">
+                <b-img slot="aside" blank blank-color="pink" width="64" alt="Placeholder - username"></b-img>
+
+                <h5 class="mt-0 mb-1">Header msg</h5>
+                <p class="mb-0">Body text</p>
+              </b-media>
+
+              <b-media tag="li" class="my-4">
+                <b-img slot="aside" blank blank-color="pink" width="64" alt="Placeholder - username"></b-img>
+
+                <h5 class="mt-0 mb-1">Header msg</h5>
+                <p class="mb-0">Body text</p>
+              </b-media>
+            </ul>
+          </div>
+          <div class="chat-input">
+
+            <div class="chat-input__box">
+              <b-input-group>
+                <b-input-group-text slot="prepend">Guest</b-input-group-text>
+                <b-form-input></b-form-input>
+                <b-input-group-append>
+                  <b-button variant="success">Send message</b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+
+          </div>
+        </b-col>
+        <b-col md="3" xl="2">
+          <h2>Online people</h2>
+
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+          <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
+</template>
+
+<script>
+import HeaderNavigation from './components/ui-modules/HeaderNavigation.vue'
+
+export default {
+  name: 'app',
+  components: {
+    HeaderNavigation
+  },
+
+  data () {
+    return {
+      onlinePeopleProps: {
+        blank: true,
+        blankColor: '#777',
+        width: 50,
+        height: 50,
+        class: 'online-people-icon'
+      }
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+  .online-people-icon {
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+  $header-nav-height: 58px;
+  $chat-input-height: 60px;
+
+  $chat-view-sticky-height: $chat-input-height + $header-nav-height;
+
+  .chat-content {
+    border-left: 1px solid rgba(0, 0, 0, .05);
+    border-right: 1px solid rgba(0, 0, 0, .05);
+
+    .chat-messages {
+      position: sticky;
+      top: $header-nav-height;
+      z-index: 1000;
+      height: calc(100vh - #{$chat-view-sticky-height});
+      border-bottom: 1px solid rgba(0, 0, 0, .05);
+    }
+
+    .chat-input {
+      height: $chat-input-height;
+
+      .chat-input__box {
+        margin-top: 15px;
+      }
+    }
+  }
+</style>
