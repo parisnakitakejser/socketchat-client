@@ -12,7 +12,7 @@
           <div class="chat-messages">
             <h2>Room:</h2>
 
-            <ChatMessages />
+            <ChatMessages :messages="messages" />
           </div>
           <div class="chat-input">
 
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+const io = require('socket.io-client');
+
 import HeaderNavigation from './components/ui-modules/HeaderNavigation.vue'
 import ChatRoom from './components/ui-modules/ChatRoom.vue'
 import ChatMessages from './components/ui-modules/ChatMessages.vue'
@@ -54,8 +56,18 @@ export default {
 
   data () {
     return {
-
+      messages: [],
+      socket: io('ws://localhost:2345', {
+        transports: ['websocket']
+      })
     }
+  },
+
+  mounted() {
+    this.socket.on('MESSAGE', (socket) => {
+      this.messages = socket;
+      console.log(this.messages)
+    })
   }
 }
 </script>
