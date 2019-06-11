@@ -19,9 +19,9 @@
             <div class="chat-input__box">
               <b-input-group>
                 <b-input-group-text slot="prepend">Guest</b-input-group-text>
-                <b-form-input></b-form-input>
+                <b-form-input v-model="message"></b-form-input>
                 <b-input-group-append>
-                  <b-button variant="success">Send message</b-button>
+                  <b-button variant="success" @click="sendMessage">Send message</b-button>
                 </b-input-group-append>
               </b-input-group>
             </div>
@@ -53,9 +53,25 @@ export default {
     ChatMessages,
     ChatOnlinePeople
   },
+  methods: {
+    sendMessage (e) {
+      e.preventDefault();
+
+      this.socket.emit('SEND_MESSAGE', {
+        color: '#abc',
+        user: 'User 4',
+        msg: this.message
+      });
+
+      this.message = '';
+
+      console.log('message send to websocket server');
+    }
+  },
 
   data () {
     return {
+      message: '',
       messages: [],
       socket: io('ws://localhost:2345', {
         transports: ['websocket']
