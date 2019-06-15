@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HeaderNavigation />
+    <HeaderNavigation :userData="user" />
 
     <b-container fluid>
       <b-row>
@@ -18,7 +18,8 @@
 
             <div class="chat-input__box">
               <b-input-group>
-                <b-input-group-text slot="prepend">Guest</b-input-group-text>
+                <b-input-group-text slot="prepend" v-if="user">{{user['username']}}</b-input-group-text>
+                <b-input-group-text slot="prepend" v-else>n/a</b-input-group-text>
                 <b-form-input v-model="message"></b-form-input>
                 <b-input-group-append>
                   <b-button variant="success" @click="sendMessage">Send message</b-button>
@@ -71,6 +72,7 @@ export default {
 
   data () {
     return {
+      user: null,
       message: '',
       messages: [],
       socket: io('ws://localhost:2345', {
@@ -83,6 +85,11 @@ export default {
     this.socket.on('MESSAGE', (socket) => {
       this.messages = socket;
       console.log(this.messages)
+    })
+
+    this.socket.on('USER_DATA', (socket) => {
+      this.user = socket;
+      console.log(this.user)
     })
   }
 }
