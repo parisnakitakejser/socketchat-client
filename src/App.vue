@@ -6,7 +6,7 @@
       <b-row>
         <b-col md="3" xl="2">
           <h2>Chat rooms</h2>
-          <ChatRoom />
+          <ChatRoom :userList="online_users" />
         </b-col>
         <b-col class="chat-content">
           <div class="chat-messages">
@@ -31,7 +31,7 @@
         </b-col>
         <b-col md="3" xl="2">
           <h2>Online people</h2>
-          <ChatOnlinePeople />
+          <ChatOnlinePeople :userList="online_users" />
         </b-col>
       </b-row>
     </b-container>
@@ -75,6 +75,7 @@ export default {
       user: null,
       message: '',
       messages: [],
+      online_users: null,
       socket: io('ws://localhost:2345', {
         transports: ['websocket']
       })
@@ -90,6 +91,12 @@ export default {
     this.socket.on('USER_DATA', (socket) => {
       this.user = socket;
       console.log(this.user)
+    })
+
+    this.socket.on('USER_ONLINE_PUBLIC_DATA', (socket) => {
+      const user_public_data = socket;
+      this.online_users = user_public_data;
+      console.log(this.online_users)
     })
   }
 }

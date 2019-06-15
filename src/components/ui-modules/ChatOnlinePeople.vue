@@ -1,22 +1,17 @@
 <template>
     <div>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
-        <b-img v-bind="onlinePeopleProps" rounded="circle"></b-img>
+        <b-img v-for="(val, inx) in userList" :key="inx" v-b-tooltip.hover :title="val.username" v-bind="onlinePeopleProps" rounded="circle"></b-img>
     </div>
 </template>
 
 <script>
     export default {
         name: "ChatOnlinePeople",
+        props: {
+            userList: {
+                require: true
+            }
+        },
         data () {
             return {
                 onlinePeopleProps: {
