@@ -6,7 +6,7 @@
       <b-row>
         <b-col md="3" xl="2">
           <h2>Chat rooms</h2>
-          <ChatRoom :userList="online_users" />
+          <ChatRoom :userList="online_users" @join_room="socket_join_room" :room="room" />
         </b-col>
         <b-col class="chat-content">
           <div class="chat-messages">
@@ -67,12 +67,27 @@ export default {
       this.message = '';
 
       console.log('message send to websocket server');
+    },
+
+    socket_join_room (room) {
+      console.log('try to join room:', room);
+      if(this.room === room) {
+        console.log('You can\'t join the same room you are in');
+      } else {
+        console.log('You go to join the new room', room);
+        this.socket.emit('join', {
+          room: room
+        });
+
+        this.room = room;
+      }
     }
   },
 
   data () {
     return {
       user: null,
+      room: null,
       message: '',
       messages: [],
       online_users: null,
