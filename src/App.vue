@@ -109,9 +109,9 @@ export default {
     })
 
     this.socket.on('USER_ONLINE_PUBLIC_DATA', (socket) => {
-      const user_public_data = socket;
+      const user_public_data = JSON.parse(socket);
       this.online_users = user_public_data;
-      console.log(this.online_users)
+      console.log('online users', user_public_data)
     })
   }
 }
