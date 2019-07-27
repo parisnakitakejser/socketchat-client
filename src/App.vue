@@ -89,7 +89,7 @@ export default {
       user: null,
       room: null,
       message: '',
-      messages: [],
+      messages: null,
       online_users: null,
       socket: io('ws://localhost:2345', {
         transports: ['websocket']
@@ -99,8 +99,8 @@ export default {
 
   mounted() {
     this.socket.on('MESSAGE', (socket) => {
-      this.messages = socket;
-      console.log(this.messages)
+      this.messages = JSON.parse(socket);
+      console.log(JSON.parse(socket))
     })
 
     this.socket.on('USER_DATA', (socket) => {
