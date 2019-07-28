@@ -12,15 +12,17 @@
           <div class="chat-messages">
             <h2>Room:</h2>
 
-            <ChatMessages :messages="messages" />
+            <div class="chat-content-messages">
+              <ChatMessages :messages="messages" />
+            </div>
           </div>
           <div class="chat-input">
 
             <div class="chat-input__box">
               <b-input-group>
-                <b-input-group-text slot="prepend" v-if="user">{{user['username']}}</b-input-group-text>
+                <b-input-group-text slot="prepend" v-if="user">{{user['user_name']}}</b-input-group-text>
                 <b-input-group-text slot="prepend" v-else>n/a</b-input-group-text>
-                <b-form-input v-model="message"></b-form-input>
+                <b-form-input v-model="message" v-on:keyup.enter="sendMessage"></b-form-input>
                 <b-input-group-append>
                   <b-button variant="success" @click="sendMessage">Send message</b-button>
                 </b-input-group-append>
@@ -104,8 +106,8 @@ export default {
     })
 
     this.socket.on('USER_DATA', (socket) => {
-      this.user = socket;
-      console.log(this.user)
+      this.user = JSON.parse(socket);
+      console.log('user data =>', JSON.parse(socket))
     })
 
     this.socket.on('USER_ONLINE_PUBLIC_DATA', (socket) => {
@@ -124,6 +126,10 @@ export default {
   $chat-input-height: 60px;
 
   $chat-view-sticky-height: $chat-input-height + $header-nav-height;
+  .chat-content-messages {
+    height: calc(100% - 55px);
+    overflow: auto;
+  }
 
   .chat-content {
     border-left: 1px solid rgba(0, 0, 0, .05);
@@ -138,8 +144,6 @@ export default {
     }
 
     .chat-input {
-      height: $chat-input-height;
-
       .chat-input__box {
         margin-top: 15px;
       }
