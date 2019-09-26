@@ -6,7 +6,7 @@
       <b-row>
         <b-col md="3" xl="2">
           <h2>Chat rooms</h2>
-          <ChatRoom :userList="online_users" @join_room="socket_join_room" :room="room" />
+          <ChatRoom v-if="available_rooms" :availableRooms="available_rooms" @join_room="socket_join_room" :room="user.room" />
         </b-col>
         <b-col class="chat-content">
           <div class="chat-messages">
@@ -73,7 +73,7 @@ export default {
 
     socket_join_room (room) {
       console.log('try to join room:', room);
-      if(this.room === room) {
+      if(this.user.room === room) {
         console.log('You can\'t join the same room you are in');
       } else {
         console.log('You go to join the new room', room);
@@ -81,7 +81,7 @@ export default {
           room: room
         });
 
-        this.room = room;
+        this.user.room = room;
       }
     }
   },
@@ -89,7 +89,7 @@ export default {
   data () {
     return {
       user: null,
-      room: null,
+      available_rooms: null,
       message: '',
       messages: null,
       online_users: null,
@@ -114,6 +114,12 @@ export default {
       const user_public_data = JSON.parse(socket);
       this.online_users = user_public_data;
       console.log('online users', user_public_data)
+    })
+
+    this.socket.on('GET_ROOMS', (socket) => {
+      const available_rooms_data = JSON.parse(socket);
+      this.available_rooms = available_rooms_data;
+      console.log('available rooms', available_rooms_data)
     })
   }
 }
