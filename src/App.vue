@@ -42,6 +42,7 @@
 
 <script>
 const io = require('socket.io-client');
+const users = require('@/assets/javascript/users');
 
 import HeaderNavigation from './components/ui-modules/HeaderNavigation.vue'
 import ChatRoom from './components/ui-modules/ChatRoom.vue'
@@ -83,6 +84,18 @@ export default {
 
         this.user.room = room;
       }
+    },
+
+    ping_service () {
+      if (this.user !== null) {
+        clearTimeout(this.ping_timeout);
+        console.log('ping_timeout', this.ping_timeout);
+
+        this.ping_timeout = setTimeout(() => {
+          users.ping(this.user);
+          this.ping_service();
+        }, 1000)
+      }
     }
   },
 
@@ -93,9 +106,19 @@ export default {
       message: '',
       messages: null,
       online_users: null,
+      ping_timeout: null,
       socket: io('ws://localhost:2345', {
         transports: ['websocket']
       })
+    }
+  },
+
+  watch: {
+    user: {
+      handler (val) {
+        this.ping_service()
+      },
+      deep: true
     }
   },
 
