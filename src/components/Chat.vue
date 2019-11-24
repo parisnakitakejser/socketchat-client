@@ -80,9 +80,15 @@ export default {
         console.log('You go to join the new room', room);
         this.socket.emit('join', {
           room: room
-        });
+        }, () => {
+          this.user.room = room;
 
-        this.user.room = room;
+          this.$router.push({
+            query: {
+              room_id: room
+            }
+          })
+        });
       }
     },
 
@@ -107,7 +113,20 @@ export default {
       messages: null,
       online_users: null,
       ping_timeout: null,
-      socket: io('localhost:2345')
+    }
+  },
+
+  computed: {
+    socket () {
+      let query = {};
+
+      if (this.$route.query.room_id !== undefined) {
+        query['room'] = this.$route.query.room_id;
+      }
+
+      return io('localhost:2345', {
+        query: query
+      });
     }
   },
 
